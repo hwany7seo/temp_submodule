@@ -14,13 +14,19 @@ jobs:
       PR_AGAINST_BRANCH: 'main'
       OWNER: 'autopr'
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - name: get last commit message
+      shell: bash
+      run: |
+      MSG=$(git log -1 --format=%s)
+    
     - name: run action
       id: run_action
-      uses: releasehub-com/github-action-create-pr-parent-submodule@v1
+      uses: ./
       with: 
         github_token: ${{ secrets.TOKEN }}
         parent_repository: ${{ env.PARENT_REPOSITORY }}
         checkout_branch: ${{ env.CHECKOUT_BRANCH}}
         pr_against_branch: ${{ env.PR_AGAINST_BRANCH }}
         owner: ${{ env.OWNER }}
+        label : ${{MSG}
