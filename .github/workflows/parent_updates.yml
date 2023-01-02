@@ -1,0 +1,26 @@
+name: 'parent updates'
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      PARENT_REPOSITORY: 'hwany7seo/test_action'
+      CHECKOUT_BRANCH: 'main'
+      PR_AGAINST_BRANCH: 'main'
+      OWNER: 'autopr'
+    steps:
+    - uses: actions/checkout@v2
+    - name: run action
+      id: run_action
+      uses: releasehub-com/github-action-create-pr-parent-submodule@v1
+      with: 
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        parent_repository: ${{ env.PARENT_REPOSITORY }}
+        checkout_branch: ${{ env.CHECKOUT_BRANCH}}
+        pr_against_branch: ${{ env.PR_AGAINST_BRANCH }}
+        owner: ${{ env.OWNER }}
