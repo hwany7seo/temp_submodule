@@ -55,7 +55,7 @@ jobs:
             head: '${{ env.PROCESS_RUN_ID }}',
             base: '${{ env.PR_AGAINST_BRANCH }}',
             title: '[Auto-generated] Submodule Updates ${{ env.PROCESS_RUN_ID }}',
-            body: '${{ env.PR_BODY }}',
+            body: '${ toJSON(github.event.head_commit.message) }',
           });
 
 
