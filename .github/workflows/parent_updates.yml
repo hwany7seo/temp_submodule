@@ -38,7 +38,7 @@ jobs:
       run: |
         echo $(git log -1 --format=%s)
         echo "$(git log -1 --format=%s)"
-        echo "aaaaaaaa"
+        echo "aaaaaaaaaaaa"
         echo ${{ steps.getcommitmsg.outputs.commitmsg }}
         echo ${{ steps.getcommitmsg.outputs.commit-message }}
         echo ${{ github.event.head_commit.message }}
