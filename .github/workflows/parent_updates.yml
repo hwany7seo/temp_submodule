@@ -26,6 +26,8 @@ jobs:
         echo "commit-message=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
         echo "COMMIT_MSG=$(echo $(git log -1 --format=%s))" >> $GITHUB_ENV
         echo "PROCESS_RUN_ID=$GITHUB_RUN_ID" >> $GITHUB_ENV
+        TEMP_COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+        echo "PR_BODY="$(echo "$TEMP_COMMIT_MESSAGE" | sed -z 's/\n/\\n/g')"
       id: getcommitmsg
     - name: Checkout parent repository and branch
       uses: actions/checkout@v2
@@ -55,7 +57,7 @@ jobs:
             head: '${{ env.PROCESS_RUN_ID }}',
             base: '${{ env.PR_AGAINST_BRANCH }}',
             title: '[Auto-generated] Submodule Updates ${{ env.PROCESS_RUN_ID }}',
-            body: '${{ toJSON(github.event.head_commit.message) }}',
+            body: '${{ env.PR_BODY }}',
           });
 
 
