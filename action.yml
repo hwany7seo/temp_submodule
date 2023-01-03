@@ -25,8 +25,7 @@ inputs:
     required: true
   label:
     description: 'Create Release Environment label'
-    required: false
-    default: 'Create Release Environment'
+    required: true
   
 runs:
   using: 'composite'
@@ -47,7 +46,7 @@ runs:
       git config user.email github-actions@github.com
       git submodule update --remote
       git checkout -b $GITHUB_RUN_ID
-      git commit -am "${{ inputs.label }}"
+      git commit -am "'${{ inputs.label }}'"
       git push --set-upstream origin $GITHUB_RUN_ID
   - name: Create pull request against target branch
     uses: actions/github-script@v5
