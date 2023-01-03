@@ -47,7 +47,7 @@ runs:
       git config user.email github-actions@github.com
       git submodule update --remote
       git checkout -b $GITHUB_RUN_ID
-      git commit -am "updating submodules"
+      git commit -am ${{ inputs.label }}
       git push --set-upstream origin $GITHUB_RUN_ID
   - name: Create pull request against target branch
     uses: actions/github-script@v5
@@ -60,7 +60,7 @@ runs:
           head: process.env.GITHUB_RUN_ID,
           base: '${{ inputs.pr_against_branch }}',
           title: `[Auto-generated] Submodule Updates ${process.env.GITHUB_RUN_ID}`,
-          body: `[Auto-generated] Submodule Updates ${process.env.GITHUB_RUN_ID}`,
+          body: `${{ inputs.label }}`,
         });
   - name: Add labels
     uses: actions/github-script@v5
