@@ -12,7 +12,7 @@ jobs:
       PARENT_REPOSITORY: 'hwany7seo/test_action'
       CHECKOUT_BRANCH: 'main'
       PR_AGAINST_BRANCH: 'main'
-      OWNER: 'autopr'
+      OWNER: 'hwany7seo'
       LABEL: Update Submodule
     steps:
     - uses: actions/checkout@v2
