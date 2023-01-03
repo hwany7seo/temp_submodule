@@ -20,6 +20,7 @@ jobs:
     - name: get last commit message
       shell: bash
       run: |
+        echo "::set-output name=commit-message::${echo $(git log -1 --format=%s)}"
         echo "{msg}=(echo $(git log -1 --format=%s))" >> $GITHUB_OUTPUT
         echo "COMMIT_MSG=$(echo $(git log -1 --format=%s))" >> $GITHUB_ENV
       id: getcommitmsg
@@ -38,4 +39,5 @@ jobs:
         echo "$(git log -1 --format=%s)"
         echo "aaaaaaaa"
         echo ${{ steps.getcommitmsg.outputs.msg }}
+        echo ${{ steps.getcommitmsg.outputs.commit-message }}
         echo ${{ env.COMMIT_MSG }}
