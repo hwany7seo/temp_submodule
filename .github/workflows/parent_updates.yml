@@ -22,7 +22,7 @@ jobs:
       run: |
         COMMIT_MESSAGE=$(echo $(git log -1 --format=%s))
         echo "::set-output name=commit-message::${COMMIT_MESSAGE}"
-        echo "{msg}={COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
+        echo "{commitmsg}=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
         echo "COMMIT_MSG=$(echo $(git log -1 --format=%s))" >> $GITHUB_ENV
       id: getcommitmsg
     - name: Checkout parent repository and branch
@@ -39,6 +39,6 @@ jobs:
         echo $(git log -1 --format=%s)
         echo "$(git log -1 --format=%s)"
         echo "aaaaaaaa"
-        echo ${{ steps.getcommitmsg.outputs.msg }}
+        echo ${{ steps.getcommitmsg.outputs.commitmsg }}
         echo ${{ steps.getcommitmsg.outputs.commit-message }}
         echo ${{ env.COMMIT_MSG }}
