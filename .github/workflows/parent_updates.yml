@@ -15,6 +15,7 @@ jobs:
       OWNER: 'hwany7seo'
       COMMIT_MSG: Update Submodule
       PR_BODY: PR BODY
+      PROCESS_RUN_ID: 1
     steps:
     - uses: actions/checkout@v2
     - name: get last commit message
@@ -24,6 +25,7 @@ jobs:
         echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
         echo "commit-message=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
         echo "COMMIT_MSG=$(echo $(git log -1 --format=%s))" >> $GITHUB_ENV
+        echo "PROCESS_RUN_ID=$GITHUB_RUN_ID" >> $GITHUB_ENV
       id: getcommitmsg
     - name: Checkout parent repository and branch
       uses: actions/checkout@v2
@@ -33,15 +35,6 @@ jobs:
         ref: ${{ env.CHECKOUT_BRANCH }}
         submodules: true
         fetch-depth: 0
-    - name: Create new branch and push changes
-      shell: bash
-      run: |
-        git config user.name cubrid
-        git config user.email github-actions@github.com
-        git submodule update --remote
-        git checkout -b $GITHUB_RUN_ID
-        git commit -am "'${{ github.event.head_commit.message }}'"
-        git push --set-upstream origin $GITHUB_RUN_ID   
     - name: value check
       shell: bash
       run: |
@@ -52,5 +45,5 @@ jobs:
         echo ${{ steps.getcommitmsg.outputs.commit-message }}
         echo ${{ github.event.head_commit.message }}
         echo ${{ toJSON(github.event.head_commit.message) }}
-        echo ${{ process.env.GITHUB_RUN_ID }}
+        echo ${{ env.PROCESS_RUN_ID }}
 
