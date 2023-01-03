@@ -49,7 +49,7 @@ runs:
       git commit -am "'${{ inputs.label }}'"
       git push --set-upstream origin $GITHUB_RUN_ID
   - name: Create pull request against target branch
-    uses: actions/github-script@v5
+    uses: actions/github-script@v6
     with:
       github-token: ${{ inputs.github_token }}
       script: |
@@ -62,7 +62,7 @@ runs:
           body: `[Auto-generated] Submodule Updates ${process.env.GITHUB_RUN_ID}`,
         });
   - name: Add labels
-    uses: actions/github-script@v5
+    uses: actions/github-script@v6
     with:
       github-token: ${{ inputs.github_token }}
       script: |
