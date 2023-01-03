@@ -20,8 +20,9 @@ jobs:
     - name: get last commit message
       shell: bash
       run: |
-        echo "::set-output name=commit-message::${echo $(git log -1 --format=%s)}"
-        echo "{msg}=(echo $(git log -1 --format=%s))" >> $GITHUB_OUTPUT
+        COMMIT_MESSAGE=$(echo $(git log -1 --format=%s))
+        echo "::set-output name=commit-message::${COMMIT_MESSAGE}"
+        echo "{msg}=$(echo $(git log -1 --format=%s))" >> $GITHUB_OUTPUT
         echo "COMMIT_MSG=$(echo $(git log -1 --format=%s))" >> $GITHUB_ENV
       id: getcommitmsg
     - name: Checkout parent repository and branch
