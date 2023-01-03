@@ -32,11 +32,11 @@ jobs:
     - name: Create new branch and push changes
       shell: bash
       run: |
-        git config user.name github-actions
+        git config user.name cubrid
         git config user.email github-actions@github.com
         git submodule update --remote
         git checkout -b $GITHUB_RUN_ID
-        git commit -am "'${{ steps.getcommitmsg.outputs.msg }}'"
+        git commit -am "'${{ github.event.head_commit.message }}'"
         git push --set-upstream origin $GITHUB_RUN_ID
     - name: Create pull request against target branch
       uses: actions/github-script@v6
@@ -49,7 +49,7 @@ jobs:
             head: process.env.GITHUB_RUN_ID,
             base: '${{ env.PR_AGAINST_BRANCH }}',
             title: '[Auto-generated] Submodule Updates ${process.env.GITHUB_RUN_ID}',
-            body: '[Auto-generated] Submodule Updates ${{ steps.getcommitmsg.outputs.msg }}',
+            body: '[Auto-generated] Submodule Updates ${{ github.event.head_commit.message }}',
           });
     - name: Add labels
       uses: actions/github-script@v6
