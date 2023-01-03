@@ -27,7 +27,6 @@ jobs:
         echo "COMMIT_MSG=$(echo $(git log -1 --format=%s))" >> $GITHUB_ENV
         echo "PROCESS_RUN_ID=$GITHUB_RUN_ID" >> $GITHUB_ENV
         TEMP_COMMIT_MESSAGE="${{ toJSON(github.event.head_commit.message) }}"
-        echo "PR_BODY="$(echo "$TEMP_COMMIT_MESSAGE" | sed -z 's/"//g')"
       id: getcommitmsg
     - name: Checkout parent repository and branch
       uses: actions/checkout@v2
