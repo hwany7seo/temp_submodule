@@ -52,9 +52,9 @@ jobs:
           await github.rest.pulls.create({
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
-            head: env.PROCESS_RUN_ID,
+            head: ${{ env.PROCESS_RUN_ID }},
             base: '${{ env.PR_AGAINST_BRANCH }}',
-            title: '[Auto-generated] Submodule Updates ${env.PROCESS_RUN_ID}',
+            title: '[Auto-generated] Submodule Updates ${{ env.PROCESS_RUN_ID }}',
             body: '${{ toJSON(github.event.head_commit.message) }}',
           });
 
