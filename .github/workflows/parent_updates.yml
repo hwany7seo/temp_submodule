@@ -35,15 +35,27 @@ jobs:
         ref: ${{ env.CHECKOUT_BRANCH }}
         submodules: true
         fetch-depth: 0
-    - name: value check
+    - name: Create new branch and push changes
       shell: bash
       run: |
-        echo $(git log -1 --format=%s)
-        echo "$(git log -1 --format=%s)"
-        echo "aaaaaaaaaaaa"
-        echo ${{ steps.getcommitmsg.outputs.commitmsg }}
-        echo ${{ steps.getcommitmsg.outputs.commit-message }}
-        echo ${{ github.event.head_commit.message }}
-        echo ${{ toJSON(github.event.head_commit.message) }}
-        echo ${{ env.PROCESS_RUN_ID }}
+        git config user.name cubrid
+        git config user.email github-actions@github.com
+        git submodule update --remote
+        git checkout -b $GITHUB_RUN_ID
+        git commit -am "'${{ github.event.head_commit.message }}'"
+        git push --set-upstream origin $GITHUB_RUN_ID
+    - name: Create pull request against target branch
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.TOKEN }}
+        script: |
+          await github.rest.pulls.create({
+            owner: '${{ env.OWNER }}',
+            repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
+            head: env.PROCESS_RUN_ID,
+            base: '${{ env.PR_AGAINST_BRANCH }}',
+            title: '[Auto-generated] Submodule Updates ${env.PROCESS_RUN_ID}',
+            body: '${{ toJSON(github.event.head_commit.message) }}',
+          });
+
 
