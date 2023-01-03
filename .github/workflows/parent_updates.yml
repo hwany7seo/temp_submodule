@@ -21,6 +21,7 @@ jobs:
       shell: bash
       run: |
         echo "{msg}=(echo $(git log -1 --format=%s))" >> $GITHUB_OUTPUT
+        echo "COMMIT_MSG=$(echo $(git log -1 --format=%s))" >> $GITHUB_ENV
       id: getcommitmsg
     - name: Checkout parent repository and branch
       uses: actions/checkout@v2
@@ -37,3 +38,4 @@ jobs:
         echo "$(git log -1 --format=%s)"
         echo "aaaaaaaa"
         echo ${{ steps.getcommitmsg.outputs.msg }}
+        echo ${{ env.COMMIT_MSG }}
