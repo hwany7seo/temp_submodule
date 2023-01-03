@@ -13,13 +13,14 @@ jobs:
       CHECKOUT_BRANCH: 'main'
       PR_AGAINST_BRANCH: 'main'
       OWNER: 'hwany7seo'
-      LABEL: Update Submodule
+      COMMIT_MSG: Update Submodule
+      PR_BODY: PR BODY
     steps:
     - uses: actions/checkout@v2
     - name: get last commit message
       shell: bash
       run: |
-        echo "{msg}=$(git log -1 --format=%s)" >> $GITHUB_OUTPUT
+        echo "{msg}=(echo $(git log -1 --format=%s))" >> $GITHUB_OUTPUT
       id: getcommitmsg
     - name: Checkout parent repository and branch
       uses: actions/checkout@v2
@@ -49,7 +50,7 @@ jobs:
             head: process.env.GITHUB_RUN_ID,
             base: '${{ env.PR_AGAINST_BRANCH }}',
             title: '[Auto-generated] Submodule Updates ${process.env.GITHUB_RUN_ID}',
-            body: '${{ github.event.head_commit.message }}',
+            body: '${{ steps.getcommitmsg.outputs.msg }}'.split('\n'),
           });
     - name: Add labels
       uses: actions/github-script@v6
