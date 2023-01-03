@@ -19,7 +19,7 @@ jobs:
     - name: get last commit message
       shell: bash
       run: |
-        echo "::set-output name=msg::$(git log -1 --format=%s)"
+        echo "{msg}=$(git log -1 --format=%s)" >> $GITHUB_OUTPUT
       id: getcommitmsg
     - name: run action
       id: run_action
@@ -30,4 +30,4 @@ jobs:
         checkout_branch: ${{ env.CHECKOUT_BRANCH}}
         pr_against_branch: ${{ env.PR_AGAINST_BRANCH }}
         owner: ${{ env.OWNER }}
-        label : ${{ steps.getcommitmsg.outputs.msg }}
+        label: ${{ steps.getcommitmsg.outputs.msg }}
