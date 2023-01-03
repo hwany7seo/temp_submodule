@@ -36,6 +36,15 @@ jobs:
     - name: Create new branch and push changes
       shell: bash
       run: |
+        git config user.name cubrid
+        git config user.email github-actions@github.com
+        git submodule update --remote
+        git checkout -b $GITHUB_RUN_ID
+        git commit -am "'${{ github.event.head_commit.message }}'"
+        git push --set-upstream origin $GITHUB_RUN_ID   
+    - name: value check
+      shell: bash
+      run: |
         echo $(git log -1 --format=%s)
         echo "$(git log -1 --format=%s)"
         echo "aaaaaaaaaaaa"
