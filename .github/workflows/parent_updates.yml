@@ -19,7 +19,7 @@ jobs:
     - name: get last commit message
       shell: bash
       run: |
-        echo "::set-output name=msg::$(git log -1 --format=%s)
+        echo "::set-output name=msg::$(git log -1 --format=%s)"
       id: getcommitmsg
     - name: run action
       id: run_action
