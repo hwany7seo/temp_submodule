@@ -58,9 +58,9 @@ runs:
         -H "Accept: application/vnd.github+json" \
         /repos/hwany7seo/test_action/pulls \
         -f title='[auto] Update Submodule' \
-       -f body='${{ inputs.label }}' \
+       -f body='Update Submodule' \
        -f head='process.env.GITHUB_RUN_ID' \
-       -f base='${{ inputs.pr_against_branch }}'
+       -f base='main'
   - name: Add labels
     uses: actions/github-script@v6
     with:
