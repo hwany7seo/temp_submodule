@@ -50,7 +50,7 @@ runs:
       git commit -am ${{ inputs.label }}
       git push --set-upstream origin $GITHUB_RUN_ID
   - name: Create pull request against target branch
-    uses: actions/github-script@v6
+    uses: actions/github-script@v5
     with:
       github-token: ${{ inputs.github_token }}
       script: |
@@ -63,7 +63,7 @@ runs:
           body: `${{ inputs.label }}`,
         });
   - name: Add labels
-    uses: actions/github-script@v6
+    uses: actions/github-script@v5
     with:
       github-token: ${{ inputs.github_token }}
       script: |
