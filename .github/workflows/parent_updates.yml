@@ -16,17 +16,20 @@ jobs:
       COMMIT_MSG: Update Submodule
       PR_BODY: PR BODY
       PROCESS_RUN_ID: 1
+      MAIN_REVIEWER: kisoo-han
     steps:
     - uses: actions/checkout@v2
     - name: get last commit message
       shell: bash
       run: |
+        COMMITTER_NAME=$(echo $(git log -1 --format=%an))
         COMMIT_MESSAGE=$(echo $(git log -1 --format=%s))
         echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
         echo "commit-message=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
         echo "COMMIT_MSG=$(echo $(git log -1 --format=%s))" >> $GITHUB_ENV
         echo "PROCESS_RUN_ID=$GITHUB_RUN_ID" >> $GITHUB_ENV
         echo "pr-body=${{ toJSON(github.event.head_commit.message) }}" >> $GITHUB_OUTPUT
+        echo "committer-name=${COMMITTER_NAME}" >> $GITHUB_OUTPUT
       id: getcommitmsg
     - name: Checkout parent repository and branch
       uses: actions/checkout@v2
@@ -56,7 +59,7 @@ jobs:
             head: '${{ env.PROCESS_RUN_ID }}',
             base: '${{ env.PR_AGAINST_BRANCH }}',
             title: '[Auto-generated] Submodule Updates ${{ env.PROCESS_RUN_ID }}',
-            body: '${{ steps.getcommitmsg.outputs.pr-body }}',
+            body: toJSON(github.event.head_commit.message),
           });
 
 
