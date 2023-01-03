@@ -24,9 +24,9 @@ jobs:
     - name: Checkout parent repository and branch
       uses: actions/checkout@v2
       with:
-        token: ${{ inputs.github_token }}
-        repository: ${{ inputs.parent_repository }}
-        ref: ${{ inputs.checkout_branch }}
+        token: ${{ secrets.TOKEN }}
+        repository: ${{ env.PARENT_REPOSITORY }}
+        ref: ${{ env.CHECKOUT_BRANCH }}
         submodules: true
         fetch-depth: 0
     - name: Create new branch and push changes
