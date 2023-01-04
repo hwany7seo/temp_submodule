@@ -86,7 +86,7 @@ jobs:
             assignees: ['${{ steps.getprinfo.outputs.committer-name }}']
           });
           await github.rest.pulls.submitReview({
-            issue_number: prNumber,
+            pull_number: prNumber,
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
             review_id: ['${{ env.MAIN_REVIEWER }}']
