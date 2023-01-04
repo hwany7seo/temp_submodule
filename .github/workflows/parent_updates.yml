@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  test:
+  auto_update:
     runs-on: ubuntu-latest
     env:
       PARENT_REPOSITORY: 'hwany7seo/test_action'
@@ -19,7 +19,7 @@ jobs:
       MAIN_REVIEWER: kisoo-han
     steps:
     - uses: actions/checkout@v2
-    - name: get last commit message
+    - name: Get Last Commit Message
       shell: bash
       run: |
         COMMITTER_NAME=$(echo $(git log -1 --format=%an))
@@ -59,7 +59,27 @@ jobs:
             head: '${{ env.PROCESS_RUN_ID }}',
             base: '${{ env.PR_AGAINST_BRANCH }}',
             title: '[Auto-generated] Submodule Updates ${{ env.PROCESS_RUN_ID }}',
-            body: toJSON(github.event.head_commit.message),
+            body: ${{ toJSON(github.event.head_commit.message) }},
+          });
+    - name: Add labels
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.TOKEN }}
+        script: |
+          const res = await github.rest.issues.listForRepo({
+            owner: '${{ env.OWNER }}',
+            repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
+          });
+          echo "$(res.data)"
+          const pr = res.data.filter(i => i.title.includes(env.PROCESS_RUN_ID));
+          echo ${ pr }
+          const prNumber = pr[0].number;  
+          echo ${ prNumber }
+          await github.rest.issues.addLabels({
+            issue_number: prNumber,
+            owner: '${{ env.OWNER }}',
+            repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
+            labels: ['${{ env.LABEL }}']
           });
 
 
