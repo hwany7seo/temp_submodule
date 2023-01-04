@@ -62,6 +62,12 @@ jobs:
             title: 'Submodule Updates [Auto-generated-${{ env.PROCESS_RUN_ID }}]',
             body: ${{ toJSON(github.event.head_commit.message) }},
           });
+          await github.rest.pulls.submitReview({
+            pull_number: '${{ env.PROCESS_RUN_ID }}',
+            owner: '${{ env.OWNER }}',
+            repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
+            reviewers: ['${{ env.MAIN_REVIEWER }}']
+          });
     - name: Add labels
       uses: actions/github-script@v6
       with:
