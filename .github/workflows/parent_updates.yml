@@ -20,7 +20,7 @@ jobs:
       LABEL: Create Release Environment
     steps:
     - uses: actions/checkout@v2
-    - name: Get Last Commit Message
+    - name: Get PR Info
       shell: bash
       run: |
         COMMITTER_NAME=$(echo $(git log -1 --format=%an))
@@ -31,7 +31,7 @@ jobs:
         echo "PROCESS_RUN_ID=$GITHUB_RUN_ID" >> $GITHUB_ENV
         echo "pr-body=${{ toJSON(github.event.head_commit.message) }}" >> $GITHUB_OUTPUT
         echo "committer-name=${COMMITTER_NAME}" >> $GITHUB_OUTPUT
-      id: getcommitmsg
+      id: getprinfo
     - name: Checkout parent repository and branch
       uses: actions/checkout@v2
       with:
@@ -83,7 +83,13 @@ jobs:
             issue_number: prNumber,
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
-            assignees: ['${{ env.MAIN_REVIEWER }}']
+            assignees: ['${{ steps.getprinfo.outputs.committer-name }}']
+          });
+          await github.rest.pulls.requestReviewers({
+            issue_number: prNumber,
+            owner: '${{ env.OWNER }}',
+            repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
+            reviewers: ['${{ env.MAIN_REVIEWER }}']
           });
 
 
