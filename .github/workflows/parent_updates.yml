@@ -62,7 +62,7 @@ jobs:
             title: 'Submodule Updates [Auto-generated-${{ env.PROCESS_RUN_ID }}]',
             body: ${{ toJSON(github.event.head_commit.message) }},
           });
-          await github.rest.pulls.submitReview({
+          await github.rest.pulls.requestReviewers({
             pull_number: '${{ env.PROCESS_RUN_ID }}',
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
