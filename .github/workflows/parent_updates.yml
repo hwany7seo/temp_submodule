@@ -16,7 +16,7 @@ jobs:
       COMMIT_MSG: Update Submodule
       PR_BODY: PR BODY
       PROCESS_RUN_ID: 1
-      MAIN_REVIEWER: kisoo-han
+      MAIN_REVIEWER: hwany7seo
       LABEL: Create Release Environment
     steps:
     - uses: actions/checkout@v2
@@ -78,6 +78,12 @@ jobs:
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
             labels: ['${{ env.LABEL }}']
+          });
+          await github.rest.issues.addAssignees({
+            issue_number: prNumber,
+            owner: '${{ env.OWNER }}',
+            repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
+            assignees: ['${{ env.MAIN_REVIEWER }}']
           });
 
 
