@@ -70,11 +70,8 @@ jobs:
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
           });
-          echo "$(res.data)"
           const pr = res.data.filter(i => i.title.includes(env.PROCESS_RUN_ID));
-          echo ${ pr }
           const prNumber = pr[0].number;  
-          echo ${ prNumber }
           await github.rest.issues.addLabels({
             issue_number: prNumber,
             owner: '${{ env.OWNER }}',
