@@ -17,6 +17,7 @@ jobs:
       PR_BODY: PR BODY
       PROCESS_RUN_ID: 1
       MAIN_REVIEWER: kisoo-han
+      LABEL: Create Release Environment
     steps:
     - uses: actions/checkout@v2
     - name: Get Last Commit Message
