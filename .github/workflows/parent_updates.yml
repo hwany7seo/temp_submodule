@@ -70,7 +70,7 @@ jobs:
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
           });
-          const pr = res.data.filter(i => i.title.includes(env.PROCESS_RUN_ID));
+          const pr = res.data.filter(i => i.title.includes(${{ env.PROCESS_RUN_ID }} ));
           const prNumber = pr[0].number;  
           await github.rest.issues.addLabels({
             issue_number: prNumber,
