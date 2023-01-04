@@ -16,7 +16,7 @@ jobs:
       COMMIT_MSG: Update Submodule
       PR_BODY: PR BODY
       PROCESS_RUN_ID: 1
-      MAIN_REVIEWER: hwany7seo
+      MAIN_REVIEWER: 'hwany7seo'
       LABEL: Create Release Environment
     steps:
     - uses: actions/checkout@v2
@@ -62,12 +62,6 @@ jobs:
             title: 'Submodule Updates [Auto-generated-${{ env.PROCESS_RUN_ID }}]',
             body: ${{ toJSON(github.event.head_commit.message) }},
           });
-          await github.rest.pulls.requestReviewers({
-            pull_number: '${{ env.PROCESS_RUN_ID }}',
-            owner: '${{ env.OWNER }}',
-            repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
-            reviewers: ['${{ env.MAIN_REVIEWER }}']
-          });
     - name: Add labels
       uses: actions/github-script@v6
       with:
@@ -79,6 +73,12 @@ jobs:
           });
           const pr = res.data.filter(i => i.title.includes(${{ env.PROCESS_RUN_ID }} ));
           const prNumber = pr[0].number;  
+          await github.rest.pulls.requestReviewers({
+            pull_number: prNumber,
+            owner: '${{ env.OWNER }}',
+            repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
+            reviewers: ['${{ env.MAIN_REVIEWER }}']
+          });
           await github.rest.issues.addLabels({
             issue_number: prNumber,
             owner: '${{ env.OWNER }}',
