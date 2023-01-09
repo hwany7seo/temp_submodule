@@ -18,7 +18,8 @@ jobs:
       PROCESS_RUN_ID: 1
       MAIN_REVIEWER: 'hwany7seo'
       SUB_REVIEWER: 'eido5'
-      LABEL: Create Release Environment
+      LABEL: Submodule Auto Update
+      ISSUE_NAME : APIS-0000
     steps:
     - uses: actions/checkout@v2
     - name: Get PR Info
@@ -30,6 +31,8 @@ jobs:
         echo "commit-message=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
         echo "COMMIT_MSG=$(echo $(git log -1 --format=%s))" >> $GITHUB_ENV
         echo "${COMMIT_MESSAGE}" | cut -d ']' -f1
+        echo "issue-name=${COMMIT_MESSAGE}]" >> $GITHUB_OUTPUT
+        echo "issue-name=${COMMIT_MESSAGE}]" >> $GITHUB_OUTPUT
         echo "PROCESS_RUN_ID=$GITHUB_RUN_ID" >> $GITHUB_ENV
         echo "pr-body=${{ toJSON(github.event.head_commit.message) }}" >> $GITHUB_OUTPUT
         echo "committer-name=${COMMITTER_NAME}" >> $GITHUB_OUTPUT
