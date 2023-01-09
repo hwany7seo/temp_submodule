@@ -73,7 +73,7 @@ jobs:
           });
           const pr = res.data.filter(i => i.title.includes(${{ env.PROCESS_RUN_ID }} ));
           const prNumber = pr[0].number;  
-          echo "getprNumber=prNumber" >> $GITHUB_OUTPUT
+          echo "getprNumber=${prNumber}" >> $GITHUB_OUTPUT
       id: getprnumber
     - name: Add Assignees
       uses: actions/github-script@v6
