@@ -62,7 +62,7 @@ jobs:
             title: 'Submodule Updates [Auto-generated-${{ env.PROCESS_RUN_ID }}]',
             body: ${{ toJSON(github.event.head_commit.message) }},
           });
-    - name: Add labels
+    - name: Get PR Number
       uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.TOKEN }}
@@ -73,23 +73,40 @@ jobs:
           });
           const pr = res.data.filter(i => i.title.includes(${{ env.PROCESS_RUN_ID }} ));
           const prNumber = pr[0].number;  
-          await github.rest.pulls.requestReviewers({
-            pull_number: prNumber,
+          echo "getprNumber=prNumber" >> $GITHUB_OUTPUT
+      id: getprnumber
+    - name: Add Assignees
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.TOKEN }}
+        script: |
+          await github.rest.issues.addAssignees({
+            issue_number: '${{ steps.getprnumber.outputs.getprNumber }}',
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
-            reviewers: ['${{ env.MAIN_REVIEWER }}']
+            assignees: ['${{ env.MAIN_REVIEWER }}']
           });
+    - name: Request Reviewer
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.TOKEN }}
+        script: |
+          await github.rest.pulls.requestReviewers({
+              pull_number:'${{ steps.getprnumber.outputs.getprNumber }}',
+              owner: '${{ env.OWNER }}',
+              repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
+              reviewers: ['${{ steps.getprinfo.outputs.committer-name }}']
+          });
+    - name: Add labels
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.TOKEN }}
+        script: |
           await github.rest.issues.addLabels({
-            issue_number: prNumber,
+            issue_number: '${{ steps.getprnumber.outputs.getprNumber }}',
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
             labels: ['${{ env.LABEL }}']
-          });
-          await github.rest.issues.addAssignees({
-            issue_number: prNumber,
-            owner: '${{ env.OWNER }}',
-            repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
-            assignees: ['${{ steps.getprinfo.outputs.committer-name }}']
           });
 
 
