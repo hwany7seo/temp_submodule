@@ -17,6 +17,7 @@ jobs:
       PR_BODY: PR BODY
       PROCESS_RUN_ID: 1
       MAIN_REVIEWER: 'hwany7seo'
+      SUB_REVIEWER: 'eido5'
       LABEL: Create Release Environment
     steps:
     - uses: actions/checkout@v2
@@ -31,6 +32,10 @@ jobs:
         echo "PROCESS_RUN_ID=$GITHUB_RUN_ID" >> $GITHUB_ENV
         echo "pr-body=${{ toJSON(github.event.head_commit.message) }}" >> $GITHUB_OUTPUT
         echo "committer-name=${COMMITTER_NAME}" >> $GITHUB_OUTPUT
+        echo "reviewer-name=${{ env.MAIN_REVIEWER }}" >> $GITHUB_OUTPUT
+        if [ ${COMMITTER_NAME}==${{ env.MAIN_REVIEWER }} ] then;
+          echo "reviewer-name=${{ env.SUB_REVIEWER }}" >> $GITHUB_OUTPUT
+        fi
       id: getprinfo
     - name: Checkout parent repository and branch
       uses: actions/checkout@v2
