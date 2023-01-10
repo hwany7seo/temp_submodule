@@ -13,7 +13,8 @@ jobs:
       CHECKOUT_BRANCH: 'main'
       PR_AGAINST_BRANCH: 'main'
       OWNER: 'hwany7seo'
-      COMMIT_MSG: ' Update Submodule'
+      COMMIT_MSG: COMMIT_MSG
+      BASE_COMMIT_MSG: '] Update Submodule'
       PR_BODY: PR BODY
       PROCESS_RUN_ID: 1
       MAIN_REVIEWER: 'hwany7seo'
@@ -29,7 +30,7 @@ jobs:
         COMMIT_MESSAGE=$(echo $(git log -1 --format=%s))
         echo "commitmsg=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
         echo "commit-message=${COMMIT_MESSAGE}" >> $GITHUB_OUTPUT
-        echo "COMMIT_MSG=$(git log -1 --format=%s | cut -d ']' -f1)" >> $GITHUB_ENV
+        echo "COMMIT_MSG=$(git log -1 --format=%s | cut -d ']' -f1)${{ env.BASE_COMMIT_MSG }}" >> $GITHUB_ENV
         echo "PROCESS_RUN_ID=$GITHUB_RUN_ID" >> $GITHUB_ENV
         echo "pr-body=${{ toJSON(github.event.head_commit.message) }}" >> $GITHUB_OUTPUT
         echo "committer-name=${COMMITTER_NAME}" >> $GITHUB_OUTPUT
