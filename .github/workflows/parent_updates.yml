@@ -13,7 +13,7 @@ jobs:
       CHECKOUT_BRANCH: 'main'
       PR_AGAINST_BRANCH: 'main'
       OWNER: 'hwany7seo'
-      COMMIT_MSG: Update Submodule
+      COMMIT_MSG: ' Update Submodule'
       PR_BODY: PR BODY
       PROCESS_RUN_ID: 1
       MAIN_REVIEWER: 'hwany7seo'
@@ -33,6 +33,7 @@ jobs:
         echo "${COMMIT_MESSAGE}" | cut -d ']' -f1
         echo "issue-name=${COMMIT_MESSAGE}]" >> $GITHUB_OUTPUT
         echo "ISSUE_NAME=${COMMIT_MESSAGE}]" >> $GITHUB_ENV
+        echo "COMMIT_MSG=${issue-name}${{ env.COMMIT_MSG }}" >> $GITHUB_ENV
         echo "PROCESS_RUN_ID=$GITHUB_RUN_ID" >> $GITHUB_ENV
         echo "pr-body=${{ toJSON(github.event.head_commit.message) }}" >> $GITHUB_OUTPUT
         echo "committer-name=${COMMITTER_NAME}" >> $GITHUB_OUTPUT
