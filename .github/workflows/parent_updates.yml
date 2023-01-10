@@ -13,7 +13,7 @@ jobs:
       CHECKOUT_BRANCH: 'main'
       PR_AGAINST_BRANCH: 'main'
       OWNER: 'hwany7seo'
-      COMMIT_MSG: COMMIT_MSG
+      COMMIT_MSG: 'Update Submodule'
       BASE_COMMIT_MSG: '] Update Submodule'
       PR_BODY: PR BODY
       PROCESS_RUN_ID: 1
@@ -84,7 +84,7 @@ jobs:
             pull_number: prNumber,
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
-            title '${{ env.COMMIT_MSG }} - Auto-generated'
+            title: '${{ env.COMMIT_MSG }} - Auto-generated'
           });
           await github.rest.issues.addAssignees({
             issue_number: prNumber,
