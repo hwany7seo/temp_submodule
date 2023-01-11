@@ -20,6 +20,8 @@ jobs:
       SUB_REVIEWER: 'eido5'
       LABEL: Submodule Auto Update
       AUTO_BRANCH_NAME: 'autogen/'
+      GIT_USER: 'cubrid'
+      GIT_USER_MAIL: 'github-actions@github.com'
     steps:
     - uses: actions/checkout@v2
     - name: Get PR Info
@@ -49,8 +51,8 @@ jobs:
     - name: Create new branch and push changes
       shell: bash
       run: |
-        git config user.name cubrid
-        git config user.email github-actions@github.com
+        git config user.name ${{ env.GIT_USER }}
+        git config user.email ${{ env.GIT_USER_MAIL }}
         git submodule update --remote
         git checkout -b ${{ env.AUTO_BRANCH_NAME}}$GITHUB_RUN_ID
         git commit -am "${{ github.event.head_commit.message }}"
