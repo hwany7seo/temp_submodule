@@ -1,4 +1,4 @@
-name: 'parent updates'
+ame: 'parent updates'
 
 on: 
   push:
@@ -90,13 +90,13 @@ jobs:
             issue_number: prNumber,
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
-            assignees: ['${{ env.MAIN_REVIEWER }}']
+            assignees: ['${{ steps.getprinfo.outputs.committer-name }}']
           });
           await github.rest.pulls.requestReviewers({
             pull_number: prNumber,
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
-            reviewers: ['${{ steps.getprinfo.outputs.committer-name }}']
+            reviewers: ['${{ steps.getprinfo.outputs.reviewer-name }}']
           });
           await github.rest.issues.addLabels({
             issue_number: prNumber,
