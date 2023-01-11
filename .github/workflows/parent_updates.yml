@@ -54,7 +54,7 @@ jobs:
         git config user.email github-actions@github.com
         git submodule update --remote
         git checkout -b $GITHUB_RUN_ID
-        git commit -am "'${{ github.event.head_commit.message }}'"
+        git commit -am "${{ github.event.head_commit.message }}"
         git push --set-upstream origin $GITHUB_RUN_ID
     - name: Create pull request against target branch
       uses: actions/github-script@v6
