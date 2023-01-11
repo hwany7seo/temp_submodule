@@ -19,7 +19,7 @@ jobs:
       MAIN_REVIEWER: 'hwany7seo'
       SUB_REVIEWER: 'eido5'
       LABEL: Submodule Auto Update
-      AUTO_BRANCH_NAME: 'autogen/'
+      AUTO_BRANCH_NAME: 'autogen'
     steps:
     - uses: actions/checkout@v2
     - name: Get PR Info
@@ -52,9 +52,9 @@ jobs:
         git config user.name cubrid
         git config user.email github-actions@github.com
         git submodule update --remote
-        git checkout -b ${{ AUTO_BRANCH_NAME}}$GITHUB_RUN_ID
+        git checkout -b ${{ env.AUTO_BRANCH_NAME}}/$GITHUB_RUN_ID'
         git commit -am "${{ github.event.head_commit.message }}"
-        git push --set-upstream origin ${{ AUTO_BRANCH_NAME}}$GITHUB_RUN_ID
+        git push --set-upstream origin '${{ env.AUTO_BRANCH_NAME }}/$GITHUB_RUN_ID
     - name: Create pull request against target branch
       uses: actions/github-script@v6
       with:
