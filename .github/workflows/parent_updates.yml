@@ -15,12 +15,11 @@ jobs:
       OWNER: 'hwany7seo'
       COMMIT_MSG: 'Update Submodule'
       BASE_COMMIT_MSG: '] Update Submodule'
-      PR_BODY: PR BODY
       PROCESS_RUN_ID: 1
       MAIN_REVIEWER: 'hwany7seo'
       SUB_REVIEWER: 'eido5'
       LABEL: Submodule Auto Update
-      ISSUE_NAME : APIS-0000
+      AUTO_BRANCH_NAME: 'autogen'
     steps:
     - uses: actions/checkout@v2
     - name: Get PR Info
@@ -53,9 +52,9 @@ jobs:
         git config user.name cubrid
         git config user.email github-actions@github.com
         git submodule update --remote
-        git checkout -b $GITHUB_RUN_ID
+        git checkout -b ${{ AUTO_BRANCH_NAME}}/$GITHUB_RUN_ID
         git commit -am "${{ github.event.head_commit.message }}"
-        git push --set-upstream origin $GITHUB_RUN_ID
+        git push --set-upstream origin ${{ AUTO_BRANCH_NAME}}/$GITHUB_RUN_ID
     - name: Create pull request against target branch
       uses: actions/github-script@v6
       with:
