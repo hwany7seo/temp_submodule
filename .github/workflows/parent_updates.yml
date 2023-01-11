@@ -1,4 +1,4 @@
-ame: 'parent updates'
+name: 'parent updates'
 
 on: 
   push:
