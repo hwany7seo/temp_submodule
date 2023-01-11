@@ -63,7 +63,7 @@ jobs:
           await github.rest.pulls.create({
             owner: '${{ env.OWNER }}',
             repo: '${{ env.PARENT_REPOSITORY }}'.split('/')[1].trim(),
-            head: '${{ env.PROCESS_RUN_ID }}',
+            head: '${{ env.AUTO_BRANCH_NAME }}${{ env.PROCESS_RUN_ID }}',
             base: '${{ env.PR_AGAINST_BRANCH }}',
             title: '${{ env.COMMIT_MSG }} - Auto-generated-${{ env.PROCESS_RUN_ID }}',
             body: ${{ toJSON(github.event.head_commit.message) }},
