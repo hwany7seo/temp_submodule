@@ -19,7 +19,7 @@ jobs:
       MAIN_REVIEWER: 'hwany7seo'
       SUB_REVIEWER: 'eido5'
       LABEL: Submodule Auto Update
-      AUTO_BRANCH_NAME: 'autogen/'
+      AUTO_BRANCH_NAME: 'autogensubmodule/'
       GIT_USER: 'cubrid'
       GIT_USER_MAIL: 'github-actions@github.com'
     steps:
