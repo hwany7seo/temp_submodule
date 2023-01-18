@@ -9,10 +9,12 @@ jobs:
   auto_update:
     runs-on: ubuntu-latest
     env:
+      WORK_PARENT_REPOSITORY: 'hwanyseo/test_action'
+      WORK_CHECKOUT_BRANCH: 'main'
       PARENT_REPOSITORY: 'hwany7seo/test_action'
       CHECKOUT_BRANCH: 'main'
       PR_AGAINST_BRANCH: 'main'
-      OWNER: 'hwany7seo'
+      OWNER: 'hwan7yseo'
       COMMIT_MSG: 'Update Submodule'
       BASE_COMMIT_MSG: '] Update Submodule'
       PROCESS_RUN_ID: 1
@@ -44,8 +46,8 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.TOKEN }}
-        repository: ${{ env.PARENT_REPOSITORY }}
-        ref: ${{ env.CHECKOUT_BRANCH }}
+        repository: ${{ env.WORK_PARENT_REPOSITORY }}
+        ref: ${{ env.WORK_CHECKOUT_BRANCH }}
         submodules: true
         fetch-depth: 0
     - name: Create new branch and push changes
