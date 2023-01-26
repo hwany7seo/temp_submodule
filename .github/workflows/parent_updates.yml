@@ -46,7 +46,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         token: ${{ secrets.TOKEN }}
-        repository: ${{ env.WORK_PARENT_REPOSITORY }}
+        repository: ${{ env.PARENT_REPOSITORY }}
         ref: ${{ env.WORK_CHECKOUT_BRANCH }}
         submodules: true
         fetch-depth: 0
